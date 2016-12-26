@@ -67,17 +67,17 @@ class HumanPlayer(Player):
 
 class RandomPlayer(Player):
     def play(self, game, state):
-        # TODO: improve this with game.getSetOfValidActions()
-        action = random.randint(0, 8)
-        while not game.isValidAction(state, action):
-            action = random.randint(0, 8)
+        action = random.choice(game.getSetOfValidActions(state))
         return action
 
 ###############################################################################
 
 class Game:
-    def getSetOfValidActions(self, state, player):
-        raise NotImplementedError()    # TODO
+    def getSetOfValidActions(self, state):
+        # Get the list index of empty squares
+        list_of_valid_actions = [index for index,symbol in enumerate(state) if symbol==" "]
+
+        return list_of_valid_actions 
 
     def nextState(self, state, action, player):
         if not self.isValidState(state):
