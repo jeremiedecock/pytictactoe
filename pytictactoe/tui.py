@@ -25,7 +25,7 @@ from pytictactoe.game import Game
 from pytictactoe.player.random import RandomPlayer
 from pytictactoe.player.human import HumanPlayer
 
-def main():
+def run():
     game = Game()
 
     player_list = [HumanPlayer("human", "X"), RandomPlayer("random", "O")]
@@ -48,5 +48,5 @@ def main():
         print("Draw...")
 
 if __name__ == '__main__':
-    main()
+    run()
 

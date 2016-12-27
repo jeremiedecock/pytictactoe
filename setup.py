@@ -88,12 +88,11 @@ SCRIPTS = []
 # system commands to call specific functions.
 # Syntax: "name_of_the_command_to_make = package.module:function".
 # E.g.:
-#   ENTRY_POINTS = {
-#     'console_scripts': [
-#         'pyax12gui = pyax12.gui:run',
-#     ],
-#   }
-ENTRY_POINTS = {}
+ENTRY_POINTS = {
+  'console_scripts': [
+      'tictactoe-nox = pytictactoe.tui:run',
+  ],
+}
 
 
 README_FILE = 'README.rst'

@@ -38,6 +38,6 @@
 #
 __version__ = '0.1.dev0'
 
-__all__ = ['core',
-           'game',
-           'player']
+__all__ = ['game',
+           'player',
+           'tui']
