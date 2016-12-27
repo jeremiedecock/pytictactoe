@@ -29,6 +29,10 @@ TODO...
 
 __all__ = ['TkGUI']
 
+from jdhp.tictactoe.game import Game
+from jdhp.tictactoe.player.random import RandomPlayer
+from jdhp.tictactoe.player.human import HumanPlayer
+
 import tkinter as tk
 
 SQUARE_SIZE = 128 # pixels
@@ -43,6 +47,13 @@ class TkGUI:
         """
         TODO...
         """
+
+        # Game attributes #############
+
+        self.game = Game()
+        self.player_list = None
+        self.current_player_index = None
+        self.current_state = None
 
         # GUI parameters ##############
 
@@ -97,10 +108,6 @@ class TkGUI:
         self.button = tk.Button(self.root, text="Start")
         self.button.grid(row=3, column=0, columnspan=2, sticky="we")
 
-        # Set the initial state #######
-
-        self.current_state = None
-
     ###################################
 
     def run(self):
@@ -112,7 +119,10 @@ class TkGUI:
     ###################################
 
     def init(self):
-        self.current_state = None   # TODO: game.getInitialState()
+        self.player_list = None          # TODO
+        self.current_player_index = None # TODO
+        self.current_state = None        # TODO
+
         self.draw_current_state()
 
         self.button["text"] = "Start"
