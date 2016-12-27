@@ -20,38 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from pytictactoe.player.abstract import Player
+import random
 
-class HumanPlayer(Player):
+from jdhp.tictactoe.player.abstract import Player
+
+class RandomPlayer(Player):
     def play(self, game, state):
-        game.print_state(state)
-
-        action = None
-        while action is None:
-            print('Select your square (e.g. "A1"): ', end='')
-            input_str = input()
-
-            if (input_str[0].lower() in "abc") and (input_str[1] in "123"):
-                if input_str[0].lower() == "a":
-                    action = 0
-                elif input_str[0].lower() == "b":
-                    action = 1
-                elif input_str[0].lower() == "c":
-                    action = 2
-
-                if input_str[1] == "1":
-                    action += 0
-                elif input_str[1] == "2":
-                    action += 3
-                elif input_str[1] == "3":
-                    action += 6
-
-                if not game.isValidAction(state, action):
-                    action = None
-            else:
-                action = None
-
-            if action is None:
-                print("Wrong value")
-
+        action = random.choice(game.getSetOfValidActions(state))
         return action

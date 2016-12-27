@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
@@ -20,11 +21,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import random
+from jdhp.tictactoe.game import Game
+from jdhp.tictactoe.player.random import RandomPlayer
+from jdhp.tictactoe.player.human import HumanPlayer
 
-from pytictactoe.player.abstract import Player
+def run():
+    game = Game()
 
-class RandomPlayer(Player):
-    def play(self, game, state):
-        action = random.choice(game.getSetOfValidActions(state))
-        return action
+    player_list = [HumanPlayer("human", "X"), RandomPlayer("random", "O")]
+    current_player_index = 0
+    current_state = [" "] * 9
+
+    while not game.isFinal(current_state, player_list):
+        current_player = player_list[current_player_index]
+        action = current_player.play(game, current_state)
+        current_state = game.nextState(current_state, action, current_player)
+        current_player_index = (current_player_index + 1) % 2
+
+    game.print_state(current_state)     # Optionnal, should be moved in player.play for human players only
+
+    if game.hasWon(player_list[0], current_state):
+        print("Player1 has won!")
+    elif game.hasWon(player_list[1], current_state):
+        print("Player2 has won!")
+    else:
+        print("Draw...")
+
+if __name__ == '__main__':
+    run()
+

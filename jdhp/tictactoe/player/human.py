@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
@@ -21,32 +20,38 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from pytictactoe.game import Game
-from pytictactoe.player.random import RandomPlayer
-from pytictactoe.player.human import HumanPlayer
+from jdhp.tictactoe.player.abstract import Player
 
-def run():
-    game = Game()
+class HumanPlayer(Player):
+    def play(self, game, state):
+        game.print_state(state)
 
-    player_list = [HumanPlayer("human", "X"), RandomPlayer("random", "O")]
-    current_player_index = 0
-    current_state = [" "] * 9
+        action = None
+        while action is None:
+            print('Select your square (e.g. "A1"): ', end='')
+            input_str = input()
 
-    while not game.isFinal(current_state, player_list):
-        current_player = player_list[current_player_index]
-        action = current_player.play(game, current_state)
-        current_state = game.nextState(current_state, action, current_player)
-        current_player_index = (current_player_index + 1) % 2
+            if (input_str[0].lower() in "abc") and (input_str[1] in "123"):
+                if input_str[0].lower() == "a":
+                    action = 0
+                elif input_str[0].lower() == "b":
+                    action = 1
+                elif input_str[0].lower() == "c":
+                    action = 2
 
-    game.print_state(current_state)     # Optionnal, should be moved in player.play for human players only
+                if input_str[1] == "1":
+                    action += 0
+                elif input_str[1] == "2":
+                    action += 3
+                elif input_str[1] == "3":
+                    action += 6
 
-    if game.hasWon(player_list[0], current_state):
-        print("Player1 has won!")
-    elif game.hasWon(player_list[1], current_state):
-        print("Player2 has won!")
-    else:
-        print("Draw...")
+                if not game.isValidAction(state, action):
+                    action = None
+            else:
+                action = None
 
-if __name__ == '__main__':
-    run()
+            if action is None:
+                print("Wrong value")
 
+        return action
