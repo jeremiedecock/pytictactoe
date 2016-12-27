@@ -7,13 +7,14 @@ include meta.make
 all: help
 
 .PHONY : all \
-		 analyse \
+		 lint \
 		 clean \
 		 conda \
 		 doc \
 		 doc-show \
 	     help \
 		 init \
+		 init-pypi \
 		 init-skeleton \
 		 list \
 		 pep8 \
@@ -63,12 +64,16 @@ list:
 
 ###############################################################################
 
-analyze:
-	@pyflakes $(PYTHON_PACKAGE_NAME) examples
-
 init:
 	git submodule init
 	git submodule update
+
+lint:
+	@pyflakes3 $(PYTHON_PACKAGE_NAME_SPACE)
+	@pyflakes3 examples
+
+pep8:
+	@pep8 --statistics
 
 conda:
 	$(PYTHON) setup.py bdist_conda
@@ -79,20 +84,20 @@ doc:
 doc-show:
 	$(PYTHON) setup.py build_sphinx --open-docs-in-browser
 
-pep8:
-	@pep8 --statistics
-
 test:
 	$(PYTHON) setup.py test -V $<
 
 trailing-spaces:
-	find $(PYTHON_PACKAGE_NAME) examples docs -name "*.py" -exec perl -pi -e 's/[ \t]*$$//' {} \;
+	find $(PYTHON_PACKAGE_NAME_SPACE) examples docs -name "*.py" -exec perl -pi -e 's/[ \t]*$$//' {} \;
 
 init-skeleton:
 	./init-skeleton.sh
 
 
 ## PUBLISH ####################################################################
+
+init-pypi:
+	python3 setup.py register
 
 publish: publish-pypi publish-doc-jdhp
 

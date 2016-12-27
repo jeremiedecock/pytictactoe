@@ -2,7 +2,7 @@
 API
 ===
 
-.. module:: pytictactoe
+.. module:: jdhp.tictactoe
 
 The library provides classes which are usable by third party tools.
 
@@ -15,5 +15,5 @@ Modules:
 .. toctree::
    :maxdepth: 2
 
-   pytictactoe.TODO_MODULE_NAME <api_TODO_MODULE_NAME>
+   jdhp.tictactoe.TODO_MODULE_NAME <api_TODO_MODULE_NAME>
 

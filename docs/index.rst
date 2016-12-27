@@ -1,6 +1,6 @@
-===========
-PyTicTacToe
-===========
+=========
+TicTacToe
+=========
 
 Play the classic Tic-Tac-Toe game.
 
@@ -17,11 +17,11 @@ Contents:
    API <api>
    developer
 
-* Web site: http://www.jdhp.org/software_en.html#pytictactoe
-* Online documentation: http://pytictactoe.readthedocs.org
-* Source code: https://github.com/jeremiedecock/pytictactoe
-* Issue tracker: https://github.com/jeremiedecock/pytictactoe/issues
-* pytictactoe on PyPI: https://pypi.python.org/pypi/pytictactoe
+* Web site: http://www.jdhp.org/software_en.html#tictactoe-py
+* Online documentation: http://jdhp-tictactoe-py.readthedocs.org
+* Source code: https://github.com/jeremiedecock/tictactoe-py
+* Issue tracker: https://github.com/jeremiedecock/tictactoe-py/issues
+* TicTacToe on PyPI: https://pypi.python.org/pypi/jdhp-tictactoe
 
 Indices and tables
 ==================

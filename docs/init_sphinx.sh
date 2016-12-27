@@ -1,11 +1,11 @@
 #!/bin/sh
 
-PROJECT_VERSION=$(python -c "import sys ; sys.path.append('..') ; print('.'.join(__import__('pytictactoe').__version__.split('.')[:2]))")
-PROJECT_RELEASE=$(python -c "import sys ; sys.path.append('..') ; print('.'.join(__import__('pytictactoe').__version__.split('.')))")
+PROJECT_VERSION=$(python -c "import sys ; sys.path.append('..') ; print('.'.join(__import__('jdhp.tictactoe').__version__.split('.')[:2]))")
+PROJECT_RELEASE=$(python -c "import sys ; sys.path.append('..') ; print('.'.join(__import__('jdhp.tictactoe').__version__.split('.')))")
 
 sphinx-quickstart \
     --sep \
-    --project="PyTicTacToe" \
+    --project="TicTacToe" \
     --author="Jérémie DECOCK" \
     -v "${PROJECT_VERSION}" \             # The short X.Y version.
     --release="${PROJECT_RELEASE}" \      # The full version, including alpha/beta/rc tags.

@@ -1,4 +1,4 @@
-.. currentmodule:: pytictactoe
+.. currentmodule:: jdhp.tictactoe
 
 ============
 Introduction

@@ -62,14 +62,14 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'PyTicTacToe'
+project = 'TicTacToe'
 authors = u'Jérémie DECOCK'
 copyright = u'Copyright (c) 2016 Jérémie DECOCK (www.jdhp.org)'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-project_version = __import__('pytictactoe').__version__.split('.')
+project_version = __import__('jdhp.tictactoe').__version__.split('.')
 # The short X.Y version.
 version = '.'.join(project_version[:2])
 # The full version, including alpha/beta/rc tags.
@@ -251,7 +251,7 @@ html_static_path = ['_static']
 # html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'pytictactoedoc'
+htmlhelp_basename = 'tictactoedoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -277,7 +277,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'pytictactoe.tex', 'PyTicTacToe Documentation',
+    (master_doc, 'tictactoe.tex', 'TicTacToe Documentation',
      authors, 'manual'),
 ]
 
@@ -319,7 +319,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'pytictactoe', 'PyTicTacToe Documentation',
+    (master_doc, 'tictactoe', 'TicTacToe Documentation',
      [authors], 1)
 ]
 
@@ -334,8 +334,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'pytictactoe', 'PyTicTacToe Documentation',
-     authors, 'pytictactoe', 'Play the classic Tic-Tac-Toe game..',
+    (master_doc, 'tictactoe', 'TicTacToe Documentation',
+     authors, 'tictactoe', 'Play the classic Tic-Tac-Toe game..',
      'Miscellaneous'),
 ]
 

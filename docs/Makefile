@@ -91,9 +91,9 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/pytictactoe.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/jdhp-tictactoe.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/pytictactoe.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/jdhp-tictactoe.qhc"
 
 .PHONY: applehelp
 applehelp:
@@ -110,8 +110,8 @@ devhelp:
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/pytictactoe"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/pytictactoe"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/jdhp-tictactoe"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/jdhp-tictactoe"
 	@echo "# devhelp"
 
 .PHONY: epub

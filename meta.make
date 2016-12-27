@@ -1,2 +1,3 @@
-PYTHON_PACKAGE_NAME=pytictactoe
+PYTHON_PACKAGE_NAME_SPACE=jdhp
+PYTHON_PACKAGE_NAME=tictactoe
 HTML_TMP_DIR=docs/_build/html/

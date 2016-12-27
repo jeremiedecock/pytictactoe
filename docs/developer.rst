@@ -1,4 +1,4 @@
-.. currentmodule:: pytictactoe
+.. currentmodule:: jdhp.tictactoe
 
 =================
 Developer's notes
@@ -15,7 +15,7 @@ Bug reports
 
 To search for bugs or report them, please use the Bug Tracker at:
 
-    https://github.com/jeremiedecock/pytictactoe/issues
+    https://github.com/jeremiedecock/tictactoe-py/issues
 
 Contribute
 ~~~~~~~~~~
@@ -54,6 +54,6 @@ Changes
 .. _pylint: http://www.pylint.org/
 .. _pyflakes: https://pypi.python.org/pypi/pyflakes
 
-.. _available on GitHub: https://github.com/jeremiedecock/pytictactoe
-.. _TODO.md: https://github.com/jeremiedecock/pytictactoe/blob/master/TODO.md
+.. _available on GitHub: https://github.com/jeremiedecock/tictactoe-py
+.. _TODO.md: https://github.com/jeremiedecock/tictactoe-py/blob/master/TODO.md
 

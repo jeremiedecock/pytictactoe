@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# PyTicTacToe
+# JDHP TicTacToe Python
 
 # The MIT License
 #
@@ -44,14 +44,14 @@ except ImportError:
 
 # SETUP VARIABLES #############################################################
 
-from pytictactoe import __version__ as VERSION
+from jdhp.tictactoe import __version__ as VERSION
 
 AUTHOR_NAME = 'Jérémie DECOCK'
 AUTHOR_EMAIL = 'jd.jdhp@gmail.com'
 
-PYTHON_PACKAGE_NAME = 'pytictactoe'
+PYPI_NAME = 'jdhp-tictactoe'
 PROJECT_SHORT_DESC = 'Play the classic Tic-Tac-Toe game.'
-PROJECT_WEB_SITE_URL = 'http://www.jdhp.org/software_en.html#pytictactoe'
+PROJECT_WEB_SITE_URL = 'http://www.jdhp.org/software_en.html#tictactoe-py'
 
 # See :  http://pypi.python.org/pypi?%3Aaction=list_classifiers
 CLASSIFIERS = ['Development Status :: 4 - Beta',
@@ -64,14 +64,14 @@ CLASSIFIERS = ['Development Status :: 4 - Beta',
                'Topic :: Software Development :: Libraries :: Python Modules',
                'Topic :: Software Development :: Libraries :: Application Frameworks']
 
-KEYWORDS = 'pytictactoe'
+KEYWORDS = 'tictactoe'
 
 # You can either specify manually the list of packages to include in the
 # distribution or use "setuptools.find_packages()" to include them
 # automatically with a recursive search (from the root directory of the
 # project).
 #PACKAGES = find_packages()
-PACKAGES = ['pytictactoe']
+PACKAGES = ['jdhp.tictactoe']
 
 
 # The following list contains all dependencies that Python will try to
@@ -90,7 +90,7 @@ SCRIPTS = []
 # E.g.:
 ENTRY_POINTS = {
   'console_scripts': [
-      'tictactoe-nox = pytictactoe.tui:run',
+      'tictactoe-nox = jdhp.tictactoe.tui:run',
   ],
 }
 
@@ -110,7 +110,7 @@ setup(author=AUTHOR_NAME,
       maintainer=AUTHOR_NAME,
       maintainer_email=AUTHOR_EMAIL,
 
-      name=PYTHON_PACKAGE_NAME,
+      name=PYPI_NAME,
       description=PROJECT_SHORT_DESC,
       long_description=get_long_description(),
       url=PROJECT_WEB_SITE_URL,
