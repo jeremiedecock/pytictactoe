@@ -137,8 +137,22 @@ class TkGUI:
         self.button["command"] = self.stop
 
         # Init game state
-        self.player_list = [HumanPlayer("X"),            # TODO!!!
-                            RandomPlayer("O")]           # TODO!!!
+        self.player_list = [None, None]                         # TODO
+
+        if self.get_player1_type() == "Human":                  # TODO
+            self.player_list[0] = HumanPlayer("X")
+        elif self.get_player1_type() == "Computer (very easy)": # TODO
+            self.player_list[0] = RandomPlayer("X")
+        else:
+            raise Exception("Internal error")
+
+        if self.get_player2_type() == "Human":                  # TODO
+            self.player_list[1] = HumanPlayer("O")
+        elif self.get_player2_type() == "Computer (very easy)": # TODO
+            self.player_list[1] = RandomPlayer("O")
+        else:
+            raise Exception("Internal error")
+
         self.current_player_index = random.randint(0, 1) # TODO
         self.current_state = self.game.getInitialState()
 
