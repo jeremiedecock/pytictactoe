@@ -58,6 +58,9 @@ class TkGUI:
         # GUI parameters ##############
 
         # TODO...
+        self.symbol_offset = 20
+        self.symbol_line_width = 12
+        self.grid_line_width = 8
 
         # Make the main window ########
 
@@ -201,12 +204,31 @@ class TkGUI:
 
         if len(id_tuple) > 0:
             item_id = id_tuple[0]
-
             #print(self.canvas.gettags(item_id))
             item_tag1, item_tag2, item_tag3 = self.canvas.gettags(item_id)
+            #print("square {} (item #{})".format(item_tag2, item_id))
 
-            print("You have clicked on the square {} (item #{})".format(item_tag2, item_id))
-            print([int(coord) for coord in item_tag2.split("x")])
+            action = int(item_tag2)
+
+            if self.game.isValidAction(self.current_state, action):
+                current_player = self.player_list[self.current_player_index]
+                self.current_state = self.game.nextState(self.current_state,
+                                                         action,
+                                                         current_player)
+                self.current_player_index = (self.current_player_index + 1) % 2
+
+                self.draw_current_state()  # TODO
+
+                if self.game.isFinal(self.current_state, self.player_list):
+                    if self.game.hasWon(self.player_list[0], self.current_state):
+                        print("Player1 has won!") # TODO
+                    elif self.game.hasWon(self.player_list[1], self.current_state):
+                        print("Player2 has won!") # TODO
+                    else:
+                        print("Draw...")          # TODO
+            #    else:
+            #        TODO...
+            #TODO...
         else:
             raise Exception("Unexpected error")
 
@@ -214,44 +236,84 @@ class TkGUI:
         """
         TODO...
         """
-        for square_index in range(SQUARE_NUM):
+        # Clear the canvas (remove all shapes)
+        self.canvas.delete(tk.ALL)
+
+        for row_index in range(SQUARE_NUM):
             # Make squares
             for col_index in range(SQUARE_NUM):
+                square_index = row_index * 3 + col_index
                 color = "white"
-                tags = ("square", "{}x{}".format(col_index, square_index))
+                tags = ("square", "{}".format(square_index))
 
-                self.canvas.create_rectangle(SQUARE_SIZE * col_index,          # x1
-                                             SQUARE_SIZE * square_index,       # y1
-                                             SQUARE_SIZE * (col_index + 1),    # x2
-                                             SQUARE_SIZE * (square_index + 1), # y2
+                active_fill_color = "green4"
+                if self.current_state is not None:
+                    if self.current_state[square_index] != " ":
+                        active_fill_color = "firebrick3"
+
+                self.canvas.create_rectangle(SQUARE_SIZE * col_index,       # x1
+                                             SQUARE_SIZE * (2 - row_index), # y1
+                                             SQUARE_SIZE * (col_index + 1), # x2
+                                             SQUARE_SIZE * (3 - row_index), # y2
                                              tag=tags,
                                              fill=color,
-                                             activefill="firebrick3",
-                                             #activeoutline="firebrick1", # does not work if "width=0"
-                                             #activewidth=4,              # does not work if "width=0"
+                                             activefill=active_fill_color,
                                              width=0)
 
-            # Draw vertical lines
-            for col_index in range(1, SQUARE_NUM):
-                line_coordinates = (SQUARE_SIZE * col_index,  # x1
-                                    0,                        # y1
-                                    SQUARE_SIZE * col_index,  # x2
-                                    SQUARE_SIZE * SQUARE_NUM) # y2
+                if self.current_state is not None:
+                    
+                    off = self.symbol_offset
 
-                self.canvas.create_line(line_coordinates,
-                                        fill="black",
-                                        width=8)
+                    if self.current_state[square_index] == "X":
+                        line_coordinates = (SQUARE_SIZE * col_index + off,       # x1
+                                            SQUARE_SIZE * (2 - row_index) + off, # y1
+                                            SQUARE_SIZE * (col_index + 1) - off, # x2
+                                            SQUARE_SIZE * (3 - row_index) - off) # y2
 
-            # Draw horizontal lines
-            for row_index in range(1, SQUARE_NUM):
-                line_coordinates = (0,                        # x1
-                                    SQUARE_SIZE * row_index,  # y1
-                                    SQUARE_SIZE * SQUARE_NUM, # x2
-                                    SQUARE_SIZE * row_index)  # y2
+                        self.canvas.create_line(line_coordinates,
+                                                fill="red",
+                                                width=self.symbol_line_width)
 
-                self.canvas.create_line(line_coordinates,
-                                        fill="black",
-                                        width=8)
+                        line_coordinates = (SQUARE_SIZE * col_index + off,       # x1
+                                            SQUARE_SIZE * (3 - row_index) - off, # y1
+                                            SQUARE_SIZE * (col_index + 1) - off, # x2
+                                            SQUARE_SIZE * (2 - row_index) + off) # y2
+
+                        self.canvas.create_line(line_coordinates,
+                                                fill="red",
+                                                width=self.symbol_line_width)
+
+                    elif self.current_state[square_index] == "O":
+                        line_coordinates = (SQUARE_SIZE * col_index + off,       # x1
+                                            SQUARE_SIZE * (2 - row_index) + off, # y1
+                                            SQUARE_SIZE * (col_index + 1) - off, # x2
+                                            SQUARE_SIZE * (3 - row_index) - off) # y2
+
+                        self.canvas.create_oval(line_coordinates,
+                                                outline="green",
+                                                width=self.symbol_line_width)
+
+        # Draw vertical lines
+        for col_index in range(1, SQUARE_NUM):
+            line_coordinates = (SQUARE_SIZE * col_index,  # x1
+                                0,                        # y1
+                                SQUARE_SIZE * col_index,  # x2
+                                SQUARE_SIZE * SQUARE_NUM) # y2
+
+            self.canvas.create_line(line_coordinates,
+                                    fill="black",
+                                    width=self.grid_line_width)
+
+        # Draw horizontal lines
+        for row_index in range(1, SQUARE_NUM):
+            line_coordinates = (0,                        # x1
+                                SQUARE_SIZE * row_index,  # y1
+                                SQUARE_SIZE * SQUARE_NUM, # x2
+                                SQUARE_SIZE * row_index)  # y2
+
+            self.canvas.create_line(line_coordinates,
+                                    fill="black",
+                                    width=self.grid_line_width)
 
 if __name__ == '__main__':
     gui = TkGUI()
