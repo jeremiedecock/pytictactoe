@@ -129,6 +129,7 @@ class Game:
     def print_state(self, state):
         """
         TODO...
+        Row count start from bottom like for chessboards.
         """
         print("  A B C")
         print(" +-+-+-+")
