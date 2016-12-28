@@ -20,14 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""
+TODO...
+"""
+
+__all__ = ['Game']
+
 class Game:
+    """
+    TODO...
+    """
+
     def getSetOfValidActions(self, state):
+        """
+        TODO...
+        """
         # Get the list index of empty squares
         list_of_valid_actions = [index for index,symbol in enumerate(state) if symbol==" "]
 
         return list_of_valid_actions 
 
     def nextState(self, state, action, player):
+        """
+        TODO...
+        """
         if not self.isValidState(state):
             raise Exception(ValueError("Wrong state value:", state))
 
@@ -39,6 +55,9 @@ class Game:
         return state
 
     def isFinal(self, state, player_list):
+        """
+        TODO...
+        """
         if not self.isValidState(state):
             raise Exception(ValueError("Wrong state value:", state))
 
@@ -51,6 +70,9 @@ class Game:
         return is_final
 
     def hasWon(self, player, state):
+        """
+        TODO...
+        """
         if not self.isValidState(state):
             raise Exception(ValueError("Wrong state value:", state))
 
@@ -73,6 +95,9 @@ class Game:
         return has_won
 
     def isValidState(self, state):
+        """
+        TODO...
+        """
         is_valid = True
 
         try:
@@ -89,10 +114,16 @@ class Game:
         return is_valid
 
     def isValidAction(self, state, action):
+        """
+        TODO...
+        """
         return (action in range(9)) and (state[action] == " ")
 
 
     def print_state(self, state):
+        """
+        TODO...
+        """
         print("  A B C")
         print(" +-+-+-+")
         print("3|{}|{}|{}|3".format(state[6], state[7], state[8]))
