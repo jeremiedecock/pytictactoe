@@ -33,6 +33,7 @@ from jdhp.tictactoe.game import Game
 from jdhp.tictactoe.player.random import RandomPlayer
 from jdhp.tictactoe.player.human import HumanPlayer
 
+import random
 import tkinter as tk
 
 SQUARE_SIZE = 128 # pixels
@@ -136,9 +137,9 @@ class TkGUI:
         self.button["command"] = self.stop
 
         # Init game state
-        self.player_list = [HumanPlayer("X"),   # TODO!!!
-                            RandomPlayer("O")]  # TODO!!!
-        self.current_player_index = 0           # TODO
+        self.player_list = [HumanPlayer("X"),            # TODO!!!
+                            RandomPlayer("O")]           # TODO!!!
+        self.current_player_index = random.randint(0, 1) # TODO
         self.current_state = self.game.getInitialState()
 
         # Display the game grid
