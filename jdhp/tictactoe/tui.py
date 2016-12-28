@@ -21,11 +21,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""
+TODO...
+"""
+
+__all__ = ['run']
+
 from jdhp.tictactoe.game import Game
 from jdhp.tictactoe.player.random import RandomPlayer
 from jdhp.tictactoe.player.human import HumanPlayer
 
 def run():
+    """
+    TODO...
+    """
     game = Game()
 
     player_list = [HumanPlayer("human", "X"), RandomPlayer("random", "O")]

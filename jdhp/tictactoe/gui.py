@@ -111,6 +111,9 @@ class TkGUI:
     ###################################
 
     def run(self):
+        """
+        TODO...
+        """
         # Tk event loop
         # TODO ???
         self.init()
@@ -119,6 +122,9 @@ class TkGUI:
     ###################################
 
     def init(self):
+        """
+        TODO...
+        """
         self.player_list = None          # TODO
         self.current_player_index = None # TODO
         self.current_state = None        # TODO
@@ -131,36 +137,60 @@ class TkGUI:
         self.lock_grid()
 
     def start(self):
+        """
+        TODO...
+        """
         self.button["text"] = "Quit"
         self.button["command"] = self.init
         self.lock_player_option_menus()
         self.unlock_grid()
 
     def lock_player_option_menus(self):
+        """
+        TODO...
+        """
         self.player1_optionmenu["state"] = "disabled"
         self.player2_optionmenu["state"] = "disabled"
 
     def unlock_player_option_menus(self):
+        """
+        TODO...
+        """
         self.player1_optionmenu["state"] = "normal"
         self.player2_optionmenu["state"] = "normal"
 
     def lock_grid(self):
+        """
+        TODO...
+        """
         self.canvas["state"] = "disabled"
 
     def unlock_grid(self):
+        """
+        TODO...
+        """
         self.canvas["state"] = "normal"
 
     ###################################
 
     def get_player1_type(self):
+        """
+        TODO...
+        """
         return self._player1_var.get()
 
     def get_player2_type(self):
+        """
+        TODO...
+        """
         return self._player2_var.get()
 
     ###################################
 
     def canvas_callback(self, event):                   # event is a tkinter.Event object
+        """
+        TODO...
+        """
         id_tuple = self.canvas.find_withtag("current")  # get the item which is under the mouse cursor
 
         if len(id_tuple) > 0:
@@ -175,6 +205,9 @@ class TkGUI:
             raise Exception("Unexpected error")
 
     def draw_current_state(self):
+        """
+        TODO...
+        """
         for row_index in range(SQUARE_NUM):
             for col_index in range(SQUARE_NUM):
                 color = "white"
