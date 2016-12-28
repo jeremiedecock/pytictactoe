@@ -31,15 +31,17 @@ from jdhp.tictactoe.game import Game
 from jdhp.tictactoe.player.random import RandomPlayer
 from jdhp.tictactoe.player.human import HumanPlayer
 
+import random
+
 def run(quiet=False):
     """
     TODO...
     """
     game = Game()
 
-    player_list = [HumanPlayer("X"),   # TODO
-                   RandomPlayer("O")]  # TODO
-    current_player_index = 0           # TODO
+    player_list = [HumanPlayer("X"),            # TODO
+                   RandomPlayer("O")]           # TODO
+    current_player_index = random.randint(0, 1) # TODO
     current_state = game.getInitialState()
 
     while not game.isFinal(current_state, player_list):
