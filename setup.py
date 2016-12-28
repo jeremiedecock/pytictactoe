@@ -92,6 +92,9 @@ ENTRY_POINTS = {
   'console_scripts': [
       'tictactoe-nox = jdhp.tictactoe.tui:run',
   ],
+  'gui_scripts': [
+      'tictactoe = jdhp.tictactoe.gui:main',
+  ]
 }
 
 
