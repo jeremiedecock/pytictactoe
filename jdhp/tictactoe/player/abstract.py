@@ -21,8 +21,7 @@
 # THE SOFTWARE.
 
 class Player:
-    def __init__(self, player_type, symbol):
-        self.player_type = player_type
+    def __init__(self, symbol):
         self.symbol = symbol
 
     def play(self, game, state):

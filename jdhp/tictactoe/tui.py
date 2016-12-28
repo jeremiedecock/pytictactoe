@@ -37,8 +37,9 @@ def run():
     """
     game = Game()
 
-    player_list = [HumanPlayer("human", "X"), RandomPlayer("random", "O")]
-    current_player_index = 0
+    player_list = [HumanPlayer("X"),   # TODO
+                   RandomPlayer("O")]  # TODO
+    current_player_index = 0           # TODO
     current_state = game.getInitialState()
 
     while not game.isFinal(current_state, player_list):

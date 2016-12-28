@@ -99,10 +99,10 @@ class TkGUI:
                                 height=SQUARE_NUM*SQUARE_SIZE)
         self.canvas.grid(row=2, column=0, columnspan=2, sticky="nswe")
 
-        self.canvas.tag_bind("square",             # a tag string or an item id
-                             "<Button-1>",         # the event descriptor
-                             self.canvas_callback, # the callback function
-                             add="+")              # "+" to add this binding to the previous one(s) (i.e. keep the previous binding(s)) or None to replace it or them
+        self.canvas.tag_bind("square",                      # a tag string or an item id
+                             "<Button-1>",                  # the event descriptor
+                             self.click_on_canvas_callback, # the callback function
+                             add="+")                       # "+" to add this binding to the previous one(s) (i.e. keep the previous binding(s)) or None to replace it or them
 
         # Start / Quit / Restart button
         self.button = tk.Button(self.root, text="Start")
@@ -134,44 +134,46 @@ class TkGUI:
         self.button["text"] = "Start"
         self.button["command"] = self.start
         self.unlock_player_option_menus()
-        self.lock_grid()
+        self.lock_canvas()
 
     def start(self):
         """
         TODO...
         """
-        self.player_list = None          # TODO
-        self.current_player_index = None # TODO
+        self.player_list = [HumanPlayer("X"),   # TODO
+                            RandomPlayer("O")]  # TODO
+        self.current_player_index = 0           # TODO
         self.current_state = self.game.getInitialState()
 
         self.button["text"] = "Quit"
         self.button["command"] = self.init
         self.lock_player_option_menus()
-        self.unlock_grid()
+        self.unlock_canvas()
 
     def lock_player_option_menus(self):
         """
-        TODO...
+        Lock the player selection menu so that the selection cannot change.
         """
         self.player1_optionmenu["state"] = "disabled"
         self.player2_optionmenu["state"] = "disabled"
 
     def unlock_player_option_menus(self):
         """
-        TODO...
+        Unlock the player selection menu so that users can change the
+        selection.
         """
         self.player1_optionmenu["state"] = "normal"
         self.player2_optionmenu["state"] = "normal"
 
-    def lock_grid(self):
+    def lock_canvas(self):
         """
-        TODO...
+        Lock the canvas so that users cannot play.
         """
         self.canvas["state"] = "disabled"
 
-    def unlock_grid(self):
+    def unlock_canvas(self):
         """
-        TODO...
+        Unlock the canvas so that users can play.
         """
         self.canvas["state"] = "normal"
 
@@ -191,7 +193,7 @@ class TkGUI:
 
     ###################################
 
-    def canvas_callback(self, event):                   # event is a tkinter.Event object
+    def click_on_canvas_callback(self, event):                   # event is a tkinter.Event object
         """
         TODO...
         """
@@ -212,31 +214,44 @@ class TkGUI:
         """
         TODO...
         """
-        for row_index in range(SQUARE_NUM):
+        for square_index in range(SQUARE_NUM):
+            # Make squares
             for col_index in range(SQUARE_NUM):
                 color = "white"
-                tags = ("square", "{}x{}".format(col_index, row_index))
+                tags = ("square", "{}x{}".format(col_index, square_index))
 
-                self.canvas.create_rectangle(SQUARE_SIZE * col_index,       # x1
-                                        SQUARE_SIZE * row_index,       # y1
-                                        SQUARE_SIZE * (col_index + 1), # x2
-                                        SQUARE_SIZE * (row_index + 1), # y2
-                                        tag=tags,
-                                        fill=color,
-                                        activefill="firebrick3",
-                                        #activeoutline="firebrick1", # does not work if "width=0"
-                                        #activewidth=4,              # does not work if "width=0"
-                                        width=0)
+                self.canvas.create_rectangle(SQUARE_SIZE * col_index,          # x1
+                                             SQUARE_SIZE * square_index,       # y1
+                                             SQUARE_SIZE * (col_index + 1),    # x2
+                                             SQUARE_SIZE * (square_index + 1), # y2
+                                             tag=tags,
+                                             fill=color,
+                                             activefill="firebrick3",
+                                             #activeoutline="firebrick1", # does not work if "width=0"
+                                             #activewidth=4,              # does not work if "width=0"
+                                             width=0)
 
+            # Draw vertical lines
             for col_index in range(1, SQUARE_NUM):
-                self.canvas.create_line((SQUARE_SIZE * col_index, 0, SQUARE_SIZE * col_index, SQUARE_SIZE * SQUARE_NUM),      # coordinates: (x1, y1, x2, y2)
-                                   fill="black",
-                                   width=8)
+                line_coordinates = (SQUARE_SIZE * col_index,  # x1
+                                    0,                        # y1
+                                    SQUARE_SIZE * col_index,  # x2
+                                    SQUARE_SIZE * SQUARE_NUM) # y2
 
+                self.canvas.create_line(line_coordinates,
+                                        fill="black",
+                                        width=8)
+
+            # Draw horizontal lines
             for row_index in range(1, SQUARE_NUM):
-                self.canvas.create_line((0, SQUARE_SIZE * row_index, SQUARE_SIZE * SQUARE_NUM, SQUARE_SIZE * row_index),      # coordinates: (x1, y1, x2, y2)
-                                   fill="black",
-                                   width=8)
+                line_coordinates = (0,                        # x1
+                                    SQUARE_SIZE * row_index,  # y1
+                                    SQUARE_SIZE * SQUARE_NUM, # x2
+                                    SQUARE_SIZE * row_index)  # y2
+
+                self.canvas.create_line(line_coordinates,
+                                        fill="black",
+                                        width=8)
 
 if __name__ == '__main__':
     gui = TkGUI()
