@@ -102,13 +102,15 @@ class TkGUI:
                                 height=SQUARE_NUM*SQUARE_SIZE)
         self.canvas.grid(row=2, column=0, columnspan=2, sticky="nswe")
 
+        self.lock_canvas()
+
         self.canvas.tag_bind("square",                      # a tag string or an item id
                              "<Button-1>",                  # the event descriptor
                              self.click_on_canvas_callback, # the callback function
                              add="+")                       # "+" to add this binding to the previous one(s) (i.e. keep the previous binding(s)) or None to replace it or them
 
         # Start / Quit / Restart button
-        self.button = tk.Button(self.root, text="Start")
+        self.button = tk.Button(self.root, text="Start", command=self.start)
         self.button.grid(row=3, column=0, columnspan=2, sticky="we")
 
     ###################################
@@ -119,39 +121,51 @@ class TkGUI:
         """
         # Tk event loop
         # TODO ???
-        self.init()
         self.root.mainloop()
 
     ###################################
-
-    def init(self):
-        """
-        TODO...
-        """
-        self.player_list = None
-        self.current_player_index = None
-        self.current_state = None
-
-        self.draw_current_state()
-
-        self.button["text"] = "Start"
-        self.button["command"] = self.start
-        self.unlock_player_option_menus()
-        self.lock_canvas()
 
     def start(self):
         """
         TODO...
         """
-        self.player_list = [HumanPlayer("X"),   # TODO
-                            RandomPlayer("O")]  # TODO
+        self.lock_player_option_menus()
+
+        # Change button's label and callback funtion
+        self.button["text"] = "Quit"
+        self.button["command"] = self.stop
+
+        # Init game state
+        self.player_list = [HumanPlayer("X"),   # TODO!!!
+                            RandomPlayer("O")]  # TODO!!!
         self.current_player_index = 0           # TODO
         self.current_state = self.game.getInitialState()
 
-        self.button["text"] = "Quit"
-        self.button["command"] = self.init
-        self.lock_player_option_menus()
-        self.unlock_canvas()
+        # Display the game grid
+        self.draw_current_state()
+
+        # Call the play loop
+        self.play_loop()
+
+    def stop(self):
+        """
+        TODO...
+        """
+        self.lock_canvas()
+        self.unlock_player_option_menus()
+
+        # Change button's label and callback funtion
+        self.button["text"] = "Start"
+        self.button["command"] = self.start
+
+        # Display score
+        if self.game.isFinal(self.current_state, self.player_list):
+            if self.game.hasWon(self.player_list[0], self.current_state):
+                print("Player1 has won!") # TODO
+            elif self.game.hasWon(self.player_list[1], self.current_state):
+                print("Player2 has won!") # TODO
+            else:
+                print("Draw...")          # TODO
 
     def lock_player_option_menus(self):
         """
@@ -196,7 +210,45 @@ class TkGUI:
 
     ###################################
 
-    def click_on_canvas_callback(self, event):                   # event is a tkinter.Event object
+    def play_loop(self):
+        """
+        TODO...
+        """
+        current_player = self.player_list[self.current_player_index]
+        is_final = self.game.isFinal(self.current_state, self.player_list)
+
+        # While computer plays
+        while (not isinstance(current_player, HumanPlayer)) and (not is_final):
+            action = self.player_list[self.current_player_index].play(self.game, self.current_state)  # TODO: execute this function in a separate thread to avoid Tk lock
+            self.play(action)
+            current_player = self.player_list[self.current_player_index]       # TODO
+            is_final = self.game.isFinal(self.current_state, self.player_list) # TODO
+
+        # Let (human) user play
+        if not is_final:          # TODO
+            self.unlock_canvas()
+
+
+    def play(self, action):
+        """
+        TODO...
+        """
+        current_player = self.player_list[self.current_player_index]
+
+        self.current_state = self.game.nextState(self.current_state,
+                                                 action,
+                                                 current_player)
+
+        self.draw_current_state()
+
+        if self.game.isFinal(self.current_state, self.player_list):
+            self.stop()
+        else:
+            self.current_player_index = (self.current_player_index + 1) % 2
+
+    ###################################
+
+    def click_on_canvas_callback(self, event):                 # event is a tkinter.Event object
         """
         TODO...
         """
@@ -211,24 +263,9 @@ class TkGUI:
             action = int(item_tag2)
 
             if self.game.isValidAction(self.current_state, action):
-                current_player = self.player_list[self.current_player_index]
-                self.current_state = self.game.nextState(self.current_state,
-                                                         action,
-                                                         current_player)
-                self.current_player_index = (self.current_player_index + 1) % 2
-
-                self.draw_current_state()  # TODO
-
-                if self.game.isFinal(self.current_state, self.player_list):
-                    if self.game.hasWon(self.player_list[0], self.current_state):
-                        print("Player1 has won!") # TODO
-                    elif self.game.hasWon(self.player_list[1], self.current_state):
-                        print("Player2 has won!") # TODO
-                    else:
-                        print("Draw...")          # TODO
-            #    else:
-            #        TODO...
-            #TODO...
+                self.lock_canvas()
+                self.play(action)  # TODO
+                self.play_loop()   # TODO
         else:
             raise Exception("Unexpected error")
 
@@ -315,9 +352,17 @@ class TkGUI:
                                     fill="black",
                                     width=self.grid_line_width)
 
-if __name__ == '__main__':
+
+def main():
+    """
+    TODO...
+    """
     gui = TkGUI()
 
     # Launch the main loop
     gui.run()
+
+
+if __name__ == '__main__':
+    main()
 
