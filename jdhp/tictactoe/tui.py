@@ -39,7 +39,7 @@ def run():
 
     player_list = [HumanPlayer("human", "X"), RandomPlayer("random", "O")]
     current_player_index = 0
-    current_state = [" "] * 9
+    current_state = game.getInitialState()
 
     while not game.isFinal(current_state, player_list):
         current_player = player_list[current_player_index]

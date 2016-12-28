@@ -31,6 +31,12 @@ class Game:
     TODO...
     """
 
+    def getInitialState(self):
+        """
+        TODO...
+        """
+        return [" "] * 9
+
     def getSetOfValidActions(self, state):
         """
         TODO...

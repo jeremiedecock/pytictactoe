@@ -125,9 +125,9 @@ class TkGUI:
         """
         TODO...
         """
-        self.player_list = None          # TODO
-        self.current_player_index = None # TODO
-        self.current_state = None        # TODO
+        self.player_list = None
+        self.current_player_index = None
+        self.current_state = None
 
         self.draw_current_state()
 
@@ -140,6 +140,10 @@ class TkGUI:
         """
         TODO...
         """
+        self.player_list = None          # TODO
+        self.current_player_index = None # TODO
+        self.current_state = self.game.getInitialState()
+
         self.button["text"] = "Quit"
         self.button["command"] = self.init
         self.lock_player_option_menus()
