@@ -31,7 +31,7 @@ from jdhp.tictactoe.game import Game
 from jdhp.tictactoe.player.random import RandomPlayer
 from jdhp.tictactoe.player.human import HumanPlayer
 
-def run():
+def run(quiet=False):
     """
     TODO...
     """
@@ -48,14 +48,15 @@ def run():
         current_state = game.nextState(current_state, action, current_player)
         current_player_index = (current_player_index + 1) % 2
 
-    game.print_state(current_state)     # Optionnal, should be moved in player.play for human players only
+    if not quiet:
+        game.print_state(current_state)
 
-    if game.hasWon(player_list[0], current_state):
-        print("Player1 has won!")
-    elif game.hasWon(player_list[1], current_state):
-        print("Player2 has won!")
-    else:
-        print("Draw...")
+        if game.hasWon(player_list[0], current_state):
+            print("Player1 has won!")
+        elif game.hasWon(player_list[1], current_state):
+            print("Player2 has won!")
+        else:
+            print("Draw...")
 
 if __name__ == '__main__':
     run()
