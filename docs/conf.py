@@ -16,6 +16,7 @@
 import sys
 import os
 import sphinx_rtd_theme
+import importlib
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -69,7 +70,8 @@ copyright = u'Copyright (c) 2016 Jérémie DECOCK (www.jdhp.org)'
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-project_version = __import__('jdhp.tictactoe').__version__.split('.')
+#project_version = __import__('jdhp.tictactoe').__version__.split('.')
+project_version = importlib.import_module('jdhp.tictactoe').__version__.split('.')
 # The short X.Y version.
 version = '.'.join(project_version[:2])
 # The full version, including alpha/beta/rc tags.

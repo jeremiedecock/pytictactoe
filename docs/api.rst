@@ -15,5 +15,5 @@ Modules:
 .. toctree::
    :maxdepth: 2
 
-   jdhp.tictactoe.TODO_MODULE_NAME <api_TODO_MODULE_NAME>
+   jdhp.tictactoe.gui <api_gui>
 
