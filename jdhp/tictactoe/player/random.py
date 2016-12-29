@@ -20,11 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""
+TODO...
+"""
+
+__all__ = ['RandomPlayer']
+
 import random
 
 from jdhp.tictactoe.player.abstract import Player
 
 class RandomPlayer(Player):
+    """
+    TODO...
+    """
+
     def play(self, game, state):
+        """
+        TODO...
+        """
         action = random.choice(game.getSetOfValidActions(state))
         return action

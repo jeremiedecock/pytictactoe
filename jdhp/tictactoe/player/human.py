@@ -20,10 +20,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""
+TODO...
+"""
+
+__all__ = ['HumanPlayer']
+
 from jdhp.tictactoe.player.abstract import Player
 
 class HumanPlayer(Player):
+    """
+    TODO...
+    """
+
     def play(self, game, state):
+        """
+        TODO...
+        """
         game.print_state(state)
 
         action = None
