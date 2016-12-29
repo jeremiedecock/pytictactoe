@@ -64,6 +64,14 @@ class TkGUI:
         self.symbol_line_width = 12
         self.grid_line_width = 8
 
+        self.square_color = "white"
+        self.player1_over_square_color = "red"
+        self.player2_over_square_color = "green"
+        self.over_wrong_square_color = "white"   # "gray"
+
+        self.player1_symbol_color = "red"
+        self.player2_symbol_color = "green"
+
         # Make the main window ########
 
         self.root = tk.Tk()                # TODO
@@ -77,7 +85,7 @@ class TkGUI:
 
         # Player1 option menu
         player1_label = tk.Label(self.root, text="Player 1 (X):")
-        player1_label.grid(row=0, column=0, sticky="w")
+        player1_label.grid(row=0, column=0, padx=8, sticky="w")
 
         self._player1_var = tk.StringVar()
         self._player1_var.set(self.available_player_type_list[0])
@@ -85,11 +93,12 @@ class TkGUI:
                                            self._player1_var,
                                            *self.available_player_type_list)
                                            #command=self.set_player1)
+        self.player1_optionmenu.config(width=24)
         self.player1_optionmenu.grid(row=0, column=1, sticky="we")
 
         # Player2 option menu
         player2_label = tk.Label(self.root, text="Player 2 (O):")
-        player2_label.grid(row=1, column=0, sticky="w")
+        player2_label.grid(row=1, column=0, padx=8, sticky="w")
 
         self._player2_var = tk.StringVar()
         self._player2_var.set(self.available_player_type_list[0])
@@ -97,6 +106,7 @@ class TkGUI:
                                            self._player2_var,
                                            *self.available_player_type_list)
                                            #command=self.set_player2)
+        self.player2_optionmenu.config(width=24)
         self.player2_optionmenu.grid(row=1, column=1, sticky="we")
 
         # Canvas
@@ -269,7 +279,8 @@ class TkGUI:
             is_final = self.game.isFinal(self.current_state, self.player_list) # TODO
 
         # Let (human) user play
-        if not is_final:          # TODO
+        if not is_final:               # TODO
+            self.draw_current_state()  # TODO (to update the "over square color"...)
             self.status_label["text"] = "{} Turn".format(current_player.symbol)
             self.unlock_canvas()
 
@@ -325,13 +336,18 @@ class TkGUI:
             # Make squares
             for col_index in range(SQUARE_NUM):
                 square_index = row_index * 3 + col_index
-                color = "white"
+                color = self.square_color
                 tags = ("square", "{}".format(square_index))
 
-                active_fill_color = "green4"
                 if self.current_state is not None:
                     if self.current_state[square_index] != " ":
-                        active_fill_color = "firebrick3"
+                        active_fill_color = self.over_wrong_square_color
+                    elif self.current_player_index == 0:
+                        active_fill_color = self.player1_over_square_color
+                    elif self.current_player_index == 1:
+                        active_fill_color = self.player2_over_square_color
+                    else:
+                        raise Exception("Internal error")
 
                 self.canvas.create_rectangle(self.square_size * col_index,       # x1
                                              self.square_size * (2 - row_index), # y1
@@ -353,7 +369,7 @@ class TkGUI:
                                             self.square_size * (3 - row_index) - off) # y2
 
                         self.canvas.create_line(line_coordinates,
-                                                fill="red",
+                                                fill=self.player1_symbol_color,
                                                 width=self.symbol_line_width)
 
                         line_coordinates = (self.square_size * col_index + off,       # x1
@@ -362,7 +378,7 @@ class TkGUI:
                                             self.square_size * (2 - row_index) + off) # y2
 
                         self.canvas.create_line(line_coordinates,
-                                                fill="red",
+                                                fill=self.player1_symbol_color,
                                                 width=self.symbol_line_width)
 
                     elif self.current_state[square_index] == "O":
@@ -372,7 +388,7 @@ class TkGUI:
                                             self.square_size * (3 - row_index) - off) # y2
 
                         self.canvas.create_oval(line_coordinates,
-                                                outline="green",
+                                                outline=self.player2_symbol_color,
                                                 width=self.symbol_line_width)
 
         # Draw vertical lines
