@@ -26,6 +26,8 @@ TODO...
 
 __all__ = ['Game']
 
+import copy
+
 class Game:
     """
     TODO...
@@ -56,9 +58,10 @@ class Game:
         if not self.isValidAction(state, action):
             raise Exception(ValueError("Wrong state value:", state))
 
-        state[action] = player.symbol
+        next_state = copy.deepcopy(state)
+        next_state[action] = player.symbol
 
-        return state
+        return next_state
 
     def isFinal(self, state, player_list):
         """
