@@ -103,3 +103,5 @@ ENV/
 # Windows Thumbnail files
 Thumbs.db
 
+# Libre Office Draw (ODG) temp file
+.~lock.*.odg#
