@@ -37,7 +37,6 @@ from jdhp.tictactoe.player.random import RandomPlayer
 import random
 import tkinter as tk
 
-SQUARE_SIZE = 128 # pixels
 SQUARE_NUM = 3    # squares per side
 
 class TkGUI:
@@ -60,6 +59,7 @@ class TkGUI:
         # GUI parameters ##############
 
         # TODO...
+        self.square_size = 128 # pixels
         self.symbol_offset = 20
         self.symbol_line_width = 12
         self.grid_line_width = 8
@@ -101,8 +101,8 @@ class TkGUI:
 
         # Canvas
         self.canvas = tk.Canvas(self.root,
-                                width=SQUARE_NUM*SQUARE_SIZE,
-                                height=SQUARE_NUM*SQUARE_SIZE)
+                                width=SQUARE_NUM*self.square_size,
+                                height=SQUARE_NUM*self.square_size)
         self.canvas.grid(row=2, column=0, columnspan=2, sticky="nswe")
 
         self.lock_canvas()
@@ -112,9 +112,22 @@ class TkGUI:
                              self.click_on_canvas_callback, # the callback function
                              add="+")                       # "+" to add this binding to the previous one(s) (i.e. keep the previous binding(s)) or None to replace it or them
 
+        self.canvas.create_text((self.square_size * 1.5, self.square_size * 1.5),
+                                text="Define players then press start",
+                                font="Sans 12 bold",
+                                fill="gray",
+                                anchor="center")  # n, ne, e, se, s, sw, w, nw, or center
+
+        # Status label
+        self.status_label = tk.Label(self.root,
+                                     font="Sans 12 bold",
+                                     foreground="#000000",
+                                     text="")
+        self.status_label.grid(row=3, column=0, columnspan=2, pady=10, sticky="we")
+
         # Start / Quit / Restart button
         self.button = tk.Button(self.root, text="Start", command=self.start)
-        self.button.grid(row=3, column=0, columnspan=2, sticky="we")
+        self.button.grid(row=4, column=0, columnspan=2, sticky="we")
 
     ###################################
 
@@ -133,6 +146,10 @@ class TkGUI:
         TODO...
         """
         self.lock_player_option_menus()
+
+        self.status_label["text"] = ""
+        #self.status_label["font"] = "Sans 12 bold"
+        #self.status_label["foreground"] = "#000000"
 
         # Change button's label and callback funtion
         self.button["text"] = "Quit"
@@ -182,11 +199,17 @@ class TkGUI:
         # Display score
         if self.game.isFinal(self.current_state, self.player_list):
             if self.game.hasWon(self.player_list[0], self.current_state):
-                print("Player1 has won!") # TODO
+                self.status_label["text"] = "Player1 has won!"
+                #self.status_label["font"] = "Sans 12 bold"
+                #self.status_label["foreground"] = "#000000"
             elif self.game.hasWon(self.player_list[1], self.current_state):
-                print("Player2 has won!") # TODO
+                self.status_label["text"] = "Player2 has won!"
+                #self.status_label["font"] = "Sans 12 bold"
+                #self.status_label["foreground"] = "#000000"
             else:
-                print("Draw...")          # TODO
+                self.status_label["text"] = "Draw!"
+                #self.status_label["font"] = "Sans 12 bold"
+                #self.status_label["foreground"] = "#000000"
 
     def lock_player_option_menus(self):
         """
@@ -247,6 +270,7 @@ class TkGUI:
 
         # Let (human) user play
         if not is_final:          # TODO
+            self.status_label["text"] = "{} Turn".format(current_player.symbol)
             self.unlock_canvas()
 
 
@@ -309,10 +333,10 @@ class TkGUI:
                     if self.current_state[square_index] != " ":
                         active_fill_color = "firebrick3"
 
-                self.canvas.create_rectangle(SQUARE_SIZE * col_index,       # x1
-                                             SQUARE_SIZE * (2 - row_index), # y1
-                                             SQUARE_SIZE * (col_index + 1), # x2
-                                             SQUARE_SIZE * (3 - row_index), # y2
+                self.canvas.create_rectangle(self.square_size * col_index,       # x1
+                                             self.square_size * (2 - row_index), # y1
+                                             self.square_size * (col_index + 1), # x2
+                                             self.square_size * (3 - row_index), # y2
                                              tag=tags,
                                              fill=color,
                                              activefill=active_fill_color,
@@ -323,29 +347,29 @@ class TkGUI:
                     off = self.symbol_offset
 
                     if self.current_state[square_index] == "X":
-                        line_coordinates = (SQUARE_SIZE * col_index + off,       # x1
-                                            SQUARE_SIZE * (2 - row_index) + off, # y1
-                                            SQUARE_SIZE * (col_index + 1) - off, # x2
-                                            SQUARE_SIZE * (3 - row_index) - off) # y2
+                        line_coordinates = (self.square_size * col_index + off,       # x1
+                                            self.square_size * (2 - row_index) + off, # y1
+                                            self.square_size * (col_index + 1) - off, # x2
+                                            self.square_size * (3 - row_index) - off) # y2
 
                         self.canvas.create_line(line_coordinates,
                                                 fill="red",
                                                 width=self.symbol_line_width)
 
-                        line_coordinates = (SQUARE_SIZE * col_index + off,       # x1
-                                            SQUARE_SIZE * (3 - row_index) - off, # y1
-                                            SQUARE_SIZE * (col_index + 1) - off, # x2
-                                            SQUARE_SIZE * (2 - row_index) + off) # y2
+                        line_coordinates = (self.square_size * col_index + off,       # x1
+                                            self.square_size * (3 - row_index) - off, # y1
+                                            self.square_size * (col_index + 1) - off, # x2
+                                            self.square_size * (2 - row_index) + off) # y2
 
                         self.canvas.create_line(line_coordinates,
                                                 fill="red",
                                                 width=self.symbol_line_width)
 
                     elif self.current_state[square_index] == "O":
-                        line_coordinates = (SQUARE_SIZE * col_index + off,       # x1
-                                            SQUARE_SIZE * (2 - row_index) + off, # y1
-                                            SQUARE_SIZE * (col_index + 1) - off, # x2
-                                            SQUARE_SIZE * (3 - row_index) - off) # y2
+                        line_coordinates = (self.square_size * col_index + off,       # x1
+                                            self.square_size * (2 - row_index) + off, # y1
+                                            self.square_size * (col_index + 1) - off, # x2
+                                            self.square_size * (3 - row_index) - off) # y2
 
                         self.canvas.create_oval(line_coordinates,
                                                 outline="green",
@@ -353,10 +377,10 @@ class TkGUI:
 
         # Draw vertical lines
         for col_index in range(1, SQUARE_NUM):
-            line_coordinates = (SQUARE_SIZE * col_index,  # x1
+            line_coordinates = (self.square_size * col_index,  # x1
                                 0,                        # y1
-                                SQUARE_SIZE * col_index,  # x2
-                                SQUARE_SIZE * SQUARE_NUM) # y2
+                                self.square_size * col_index,  # x2
+                                self.square_size * SQUARE_NUM) # y2
 
             self.canvas.create_line(line_coordinates,
                                     fill="black",
@@ -365,9 +389,9 @@ class TkGUI:
         # Draw horizontal lines
         for row_index in range(1, SQUARE_NUM):
             line_coordinates = (0,                        # x1
-                                SQUARE_SIZE * row_index,  # y1
-                                SQUARE_SIZE * SQUARE_NUM, # x2
-                                SQUARE_SIZE * row_index)  # y2
+                                self.square_size * row_index,  # y1
+                                self.square_size * SQUARE_NUM, # x2
+                                self.square_size * row_index)  # y2
 
             self.canvas.create_line(line_coordinates,
                                     fill="black",
