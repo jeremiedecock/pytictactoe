@@ -30,8 +30,9 @@ TODO...
 __all__ = ['TkGUI']
 
 from jdhp.tictactoe.game import Game
-from jdhp.tictactoe.player.random import RandomPlayer
+from jdhp.tictactoe.player.greedy import GreedyPlayer
 from jdhp.tictactoe.player.human import HumanPlayer
+from jdhp.tictactoe.player.random import RandomPlayer
 
 import random
 import tkinter as tk
@@ -71,6 +72,7 @@ class TkGUI:
         # Make widgets ################
 
         self.available_player_type_list = ["Human",
+                                           "Computer (easy)",
                                            "Computer (very easy)"]
 
         # Player1 option menu
@@ -141,6 +143,8 @@ class TkGUI:
 
         if self.get_player1_type() == "Human":                  # TODO
             self.player_list[0] = HumanPlayer("X")
+        elif self.get_player1_type() == "Computer (easy)":      # TODO
+            self.player_list[0] = GreedyPlayer("X")
         elif self.get_player1_type() == "Computer (very easy)": # TODO
             self.player_list[0] = RandomPlayer("X")
         else:
@@ -148,6 +152,8 @@ class TkGUI:
 
         if self.get_player2_type() == "Human":                  # TODO
             self.player_list[1] = HumanPlayer("O")
+        elif self.get_player2_type() == "Computer (easy)":      # TODO
+            self.player_list[1] = GreedyPlayer("O")
         elif self.get_player2_type() == "Computer (very easy)": # TODO
             self.player_list[1] = RandomPlayer("O")
         else:

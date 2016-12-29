@@ -20,7 +20,39 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-__all__ = ['abstract',
-           'human',
-           'greedy',
-           'random']
+"""
+TODO...
+"""
+
+__all__ = ['GreedyPlayer']
+
+import random
+
+from jdhp.tictactoe.player.abstract import Player
+
+class GreedyPlayer(Player):
+    """
+    TODO...
+    """
+
+    def play(self, game, state):
+        """
+        TODO...
+        """
+        action_list = game.getSetOfValidActions(state)
+
+        choosen_action = None
+
+        # Choose actions that lead to immediate victory...
+        for action in action_list:
+            next_state = game.nextState(state, action, self)
+            if game.hasWon(self, next_state):
+                choosen_action = action
+                break
+
+        # ... otherwise choose randomly
+        if choosen_action is None:
+            #print("randomly choose action")    # debug
+            choosen_action = random.choice(action_list)
+
+        return choosen_action
