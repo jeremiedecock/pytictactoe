@@ -106,13 +106,12 @@ def run():
     # LAUNCH THE GAME #########################################################
 
     if save:
-        save_dict = {
-                        "player1": player1,
-                        "player2": player2,
-                        "execution_utc_datetime": datetime.datetime.utcnow().isoformat(),
-                        "game_version": VERSION,
-                        "game_log_list": []
-                    }
+        saved_data_dict = {
+                           "players": {0: player1, 1: player2},
+                           "execution_utc_datetime": datetime.datetime.utcnow().isoformat(),
+                           "game_version": VERSION,
+                           "game_log_list": []
+                          }
 
     game = Game()
 
@@ -121,17 +120,25 @@ def run():
 
     for game_index in range(game_number):
         if save:
-            game_dict = {}
+            game_log_dict = {"move_list": []}
 
         current_player_index = random.randint(0, 1)     # TODO
         current_state = game.getInitialState()
 
         # Game loop
         while not game.isFinal(current_state, player_list):
+            if save:
+                move_dict = {"player": current_player_index}
+
             current_player = player_list[current_player_index]
             action = current_player.play(game, current_state)
             current_state = game.nextState(current_state, action, current_player)
             current_player_index = (current_player_index + 1) % 2
+
+            if save:
+                move_dict["action"] = action
+                move_dict["resulting_state"] = current_state
+                game_log_dict["move_list"].append(move_dict)
 
         # Display or save result
         if not quiet:
@@ -141,26 +148,26 @@ def run():
             if not quiet:
                 print("Player1 has won!")
             if save:
-                game_dict["winner"] = "player1"
+                game_log_dict["winner"] = 0
         elif game.hasWon(player_list[1], current_state):
             if not quiet:
                 print("Player2 has won!")
             if save:
-                game_dict["winner"] = "player2"
+                game_log_dict["winner"] = 1
         else:
             if not quiet:
                 print("Draw...")
             if save:
-                game_dict["winner"] = "null"
+                game_log_dict["winner"] = None
 
         if save:
-            save_dict["game_log_list"].append(game_dict)
+            saved_data_dict["game_log_list"].append(game_log_dict)
 
     if save:
         print("Save results in", save_path)
 
         with open(save_path, "w") as fd:
-            json.dump(save_dict, fd, sort_keys=True, indent=4)
+            json.dump(saved_data_dict, fd, sort_keys=True, indent=4)
 
 if __name__ == '__main__':
     run()
