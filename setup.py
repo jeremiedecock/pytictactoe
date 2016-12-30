@@ -55,14 +55,21 @@ PROJECT_WEB_SITE_URL = 'http://www.jdhp.org/software_en.html#tictactoe-py'
 
 # See :  http://pypi.python.org/pypi?%3Aaction=list_classifiers
 CLASSIFIERS = ['Development Status :: 4 - Beta',
-               'Intended Audience :: Developers',
+               'Environment :: Console',
+               'Environment :: MacOS X',
+               'Environment :: Win32 (MS Windows)',
+               'Environment :: X11 Applications',
+               'Intended Audience :: End Users/Desktop',
                'License :: OSI Approved :: MIT License',
                'Natural Language :: English',
                'Operating System :: OS Independent',
                'Programming Language :: Python :: 3',
-               'Topic :: Software Development :: Libraries',
-               'Topic :: Software Development :: Libraries :: Python Modules',
-               'Topic :: Software Development :: Libraries :: Application Frameworks']
+               'Programming Language :: Python :: 3.0',
+               'Programming Language :: Python :: 3.1',
+               'Programming Language :: Python :: 3.2',
+               'Programming Language :: Python :: 3.3',
+               'Programming Language :: Python :: 3.4',
+               'Topic :: Games/Entertainment :: Board Games']
 
 KEYWORDS = 'tictactoe'
 
