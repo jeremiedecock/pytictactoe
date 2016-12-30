@@ -34,8 +34,12 @@ from jdhp.tictactoe.player.greedy import GreedyPlayer
 from jdhp.tictactoe.player.random import RandomPlayer
 
 import argparse
+import datetime
+import json
+import os
 import random
 import sys
+import time
 
 PLAYER_TYPE_DICT = {"human": HumanPlayer,
                     "greedy": GreedyPlayer,
@@ -66,6 +70,12 @@ def run():
     parser.add_argument("--number", "-n", type=int, default=1, metavar="INTEGER",
                         help="number of games to play (default=1)")
 
+    parser.add_argument("--save", "-s", action="store_true",
+                        help="save results in a JSON file")
+
+    parser.add_argument("--save-path", metavar="STRING",
+                        help="path of the JSON file where results are saved")
+
     parser.add_argument("--quiet", "-q", action="store_true",
                         help="quiet mode (don't display game results)")
 
@@ -78,16 +88,31 @@ def run():
         print(VERSION)
         sys.exit(0)
 
-    player1 = args.player1
-    player2 = args.player2
+    player1 = args.player1.lower()
+    player2 = args.player2.lower()
     game_number = args.number
+    save = args.save
+    save_path = args.save_path
     quiet = args.quiet
 
     if game_number < 1:
         error_msg = 'The "--number" option should be an integer greater than 0'
         raise ValueError(error_msg)
 
+    if save and save_path is None:
+        save_path = "tictactoe_{}_{}.json".format(time.strftime("%Y-%m-%d_%H-%M-%S"),
+                                                  os.getpid())
+
     # LAUNCH THE GAME #########################################################
+
+    if save:
+        save_dict = {
+                        "player1": player1,
+                        "player2": player2,
+                        "execution_utc_datetime": datetime.datetime.utcnow().isoformat(),
+                        "game_version": VERSION,
+                        "game_log_list": []
+                    }
 
     game = Game()
 
@@ -95,24 +120,47 @@ def run():
                    PLAYER_TYPE_DICT[player2]("O")]  # TODO
 
     for game_index in range(game_number):
+        if save:
+            game_dict = {}
+
         current_player_index = random.randint(0, 1)     # TODO
         current_state = game.getInitialState()
 
+        # Game loop
         while not game.isFinal(current_state, player_list):
             current_player = player_list[current_player_index]
             action = current_player.play(game, current_state)
             current_state = game.nextState(current_state, action, current_player)
             current_player_index = (current_player_index + 1) % 2
 
+        # Display or save result
         if not quiet:
             game.print_state(current_state)
 
-            if game.hasWon(player_list[0], current_state):
+        if game.hasWon(player_list[0], current_state):
+            if not quiet:
                 print("Player1 has won!")
-            elif game.hasWon(player_list[1], current_state):
+            if save:
+                game_dict["winner"] = "player1"
+        elif game.hasWon(player_list[1], current_state):
+            if not quiet:
                 print("Player2 has won!")
-            else:
+            if save:
+                game_dict["winner"] = "player2"
+        else:
+            if not quiet:
                 print("Draw...")
+            if save:
+                game_dict["winner"] = "null"
+
+        if save:
+            save_dict["game_log_list"].append(game_dict)
+
+    if save:
+        print("Save results in", save_path)
+
+        with open(save_path, "w") as fd:
+            json.dump(save_dict, fd, sort_keys=True, indent=4)
 
 if __name__ == '__main__':
     run()
