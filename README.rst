@@ -118,5 +118,3 @@ This project is provided under the terms and conditions of the `MIT License`_.
 
 
 .. _MIT License: http://opensource.org/licenses/MIT
-
-.. _TicTacToe: http://www.jdhp.org/software_en.html#tictactoe-py
