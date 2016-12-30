@@ -23,6 +23,7 @@ all: help
 		 publish-doc-jdhp \
 		 publish-pypi \
 		 pypi \
+		 pypi-check \
 		 test \
 		 trailing-spaces \
 
@@ -101,7 +102,15 @@ init-pypi:
 
 publish: publish-pypi publish-doc-jdhp
 
-publish-pypi:
+pypi-check:
+	# Check if the package is OK for pypi (expecially to avoid silent errors
+	# on the "long_description" argument.
+	# For more information, see the following link:
+	# http://inre.dundeemt.com/2014-05-04/pypi-vs-readme-rst-a-tale-of-frustration-and-unnecessary-binding/
+	python3 setup.py check --restructuredtext -s
+
+publish-pypi: pypi-check
+	# Send the new package to pypi
 	python3 setup.py sdist upload
 
 publish-doc-github: doc
