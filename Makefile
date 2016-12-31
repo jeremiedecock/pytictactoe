@@ -108,6 +108,9 @@ pypi-check:
 	# For more information, see the following link:
 	# http://inre.dundeemt.com/2014-05-04/pypi-vs-readme-rst-a-tale-of-frustration-and-unnecessary-binding/
 	python3 setup.py check --restructuredtext -s
+	
+	# Further checks (see http://stackoverflow.com/questions/26737222/pypi-description-markdown-doesnt-work)
+	rst2html README.rst > /dev/null
 
 publish-pypi: pypi-check
 	# Send the new package to pypi
